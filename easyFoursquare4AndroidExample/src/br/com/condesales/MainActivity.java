@@ -131,7 +131,6 @@ AccessTokenRequestListener, ImageRequestListener, android.view.View.OnClickListe
 		//checkin();
 
 		getHistory();
-
 	}
 
 	private void getHistory() {
@@ -277,6 +276,7 @@ AccessTokenRequestListener, ImageRequestListener, android.view.View.OnClickListe
 		if(v == shareButton){
 			Intent intent = new Intent(getApplicationContext(), BluetoothShareActivity.class);
 			//Intent intent = new Intent(getApplicationContext(),ExpressActivity.class);
+			//Intent intent = new Intent(getApplicationContext(), CommonActivity.class);
 
 			intent.putExtra("venues", venueId);
 			startActivity(intent);

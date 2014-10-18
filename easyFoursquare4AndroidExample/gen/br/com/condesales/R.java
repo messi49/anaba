@@ -39,35 +39,39 @@ public final class R {
         public static final int window_background=0x7f02000a;
     }
     public static final class id {
-        public static final int bt_text=0x7f090011;
+        public static final int bt_text=0x7f090013;
+        public static final int button1=0x7f090002;
         public static final int button_request=0x7f090001;
-        public static final int button_scan=0x7f090016;
+        public static final int button_scan=0x7f09001a;
         public static final int button_send=0x7f090000;
-        public static final int commonCategory=0x7f090008;
-        public static final int commonText=0x7f090007;
-        public static final int discoverable=0x7f09001c;
-        public static final int insecure_connect_scan=0x7f09001b;
-        public static final int new_devices=0x7f090015;
-        public static final int nonCommonCategory=0x7f09000a;
-        public static final int nonCommonText=0x7f090009;
-        public static final int paired_devices=0x7f090013;
-        public static final int placeLv=0x7f090006;
-        public static final int progressBar1=0x7f090003;
-        public static final int rowtext1=0x7f090018;
-        public static final int rowtext2=0x7f090019;
-        public static final int secure_connect_scan=0x7f09001a;
-        public static final int shareButton=0x7f09000f;
-        public static final int tableLayout=0x7f09000b;
-        public static final int tableRow1=0x7f09000c;
-        public static final int textView1=0x7f09000d;
-        public static final int textView2=0x7f09000e;
-        public static final int textView3=0x7f090010;
-        public static final int title_new_devices=0x7f090014;
-        public static final int title_paired_devices=0x7f090012;
-        public static final int userImage=0x7f090004;
-        public static final int userName=0x7f090005;
-        public static final int viewSwitcher1=0x7f090002;
-        public static final int webview=0x7f090017;
+        public static final int commonCategory=0x7f09000a;
+        public static final int commonText=0x7f090009;
+        public static final int discoverable=0x7f090020;
+        public static final int image=0x7f090014;
+        public static final int insecure_connect_scan=0x7f09001f;
+        public static final int list=0x7f090003;
+        public static final int new_devices=0x7f090019;
+        public static final int nonCommonCategory=0x7f09000c;
+        public static final int nonCommonText=0x7f09000b;
+        public static final int paired_devices=0x7f090017;
+        public static final int placeLv=0x7f090008;
+        public static final int progressBar1=0x7f090005;
+        public static final int rowtext1=0x7f09001c;
+        public static final int rowtext2=0x7f09001d;
+        public static final int secure_connect_scan=0x7f09001e;
+        public static final int shareButton=0x7f090011;
+        public static final int tableLayout=0x7f09000d;
+        public static final int tableRow1=0x7f09000e;
+        public static final int text=0x7f090015;
+        public static final int textView1=0x7f09000f;
+        public static final int textView2=0x7f090010;
+        public static final int textView3=0x7f090012;
+        public static final int title_new_devices=0x7f090018;
+        public static final int title_paired_devices=0x7f090016;
+        public static final int userImage=0x7f090006;
+        public static final int userName=0x7f090007;
+        public static final int viewSwitcher1=0x7f090004;
+        public static final int webview=0x7f09001b;
     }
     public static final class layout {
         public static final int activity_bluetooth_share=0x7f030000;
@@ -76,10 +80,11 @@ public final class R {
         public static final int activity_main=0x7f030003;
         public static final int activity_noncommon=0x7f030004;
         public static final int activity_share=0x7f030005;
-        public static final int device_list=0x7f030006;
-        public static final int device_name=0x7f030007;
-        public static final int dialog_layout=0x7f030008;
-        public static final int tablerow_layout=0x7f030009;
+        public static final int custom_layout=0x7f030006;
+        public static final int device_list=0x7f030007;
+        public static final int device_name=0x7f030008;
+        public static final int dialog_layout=0x7f030009;
+        public static final int tablerow_layout=0x7f03000a;
     }
     public static final class menu {
         public static final int option_menu=0x7f080000;

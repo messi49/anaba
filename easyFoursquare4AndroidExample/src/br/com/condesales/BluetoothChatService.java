@@ -57,7 +57,7 @@ public class BluetoothChatService {
 	private final BluetoothAdapter mAdapter;
 	private final Handler mHandler;
 	private AcceptThread mSecureAcceptThread;
-	private AcceptThread mInsecureAcceptThread;
+	//private AcceptThread mInsecureAcceptThread;
 	private ConnectThread mConnectThread;
 	private ConnectedThread mConnectedThread;
 	private int mState;
@@ -116,10 +116,10 @@ public class BluetoothChatService {
 			mSecureAcceptThread = new AcceptThread(true);
 			mSecureAcceptThread.start();
 		}
-		if (mInsecureAcceptThread == null) {
-			mInsecureAcceptThread = new AcceptThread(false);
-			mInsecureAcceptThread.start();
-		}
+//		if (mInsecureAcceptThread == null) {
+//			mInsecureAcceptThread = new AcceptThread(false);
+//			mInsecureAcceptThread.start();
+//		}
 	}
 
 	/**
@@ -164,10 +164,10 @@ public class BluetoothChatService {
 			mSecureAcceptThread.cancel();
 			mSecureAcceptThread = null;
 		}
-		if (mInsecureAcceptThread != null) {
-			mInsecureAcceptThread.cancel();
-			mInsecureAcceptThread = null;
-		}
+//		if (mInsecureAcceptThread != null) {
+//			mInsecureAcceptThread.cancel();
+//			mInsecureAcceptThread = null;
+//		}
 
 		// Start the thread to manage the connection and perform transmissions
 		mConnectedThread = new ConnectedThread(socket, socketType);
@@ -204,10 +204,10 @@ public class BluetoothChatService {
 			mSecureAcceptThread = null;
 		}
 
-		if (mInsecureAcceptThread != null) {
-			mInsecureAcceptThread.cancel();
-			mInsecureAcceptThread = null;
-		}
+//		if (mInsecureAcceptThread != null) {
+//			mInsecureAcceptThread.cancel();
+//			mInsecureAcceptThread = null;
+//		}
 		setState(STATE_NONE);
 	}
 

@@ -1,5 +1,7 @@
 package br.com.condesales;
 
+import java.util.ArrayList;
+
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -66,10 +68,19 @@ public class BluetoothShareActivity extends Activity{
 	// Member object for the chat services
 	private BluetoothChatService mChatService = null;
 
+	private ArrayList<String> venueId;
+	
+	//true = sender, false = reciever
+	private boolean sender = false;
+
+	BluetoothShareActivity mBluetoothShareActivity;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if(D) Log.e(TAG, "+++ ON CREATE +++");
+
+		mBluetoothShareActivity = new BluetoothShareActivity();
 
 		// Set up the window layout
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);  
@@ -85,6 +96,14 @@ public class BluetoothShareActivity extends Activity{
 			Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
 			finish();
 			return;
+		}
+
+		Intent i = getIntent();
+		venueId = i.getStringArrayListExtra("venues");
+
+		for (int p = 0 ; p < venueId.size() ; p++){
+			String country = venueId.get(p);
+			Log.v("Blue", "venue " + p +" = " + country);
 		}
 	}
 
@@ -138,6 +157,8 @@ public class BluetoothShareActivity extends Activity{
 				//				String message = view.getText().toString();
 				//sendMessage(message);
 
+				sender = true;
+
 				Intent serverIntent = new Intent(BluetoothShareActivity.this, DeviceListActivity.class);
 				startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
 
@@ -147,10 +168,11 @@ public class BluetoothShareActivity extends Activity{
 		mRequestButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				ensureDiscoverable();
+				sender = false;
 			}
 		});
-		
-		
+
+
 		// Initialize the BluetoothChatService to perform bluetooth connections
 		mChatService = new BluetoothChatService(this, mHandler);
 
@@ -225,15 +247,15 @@ public class BluetoothShareActivity extends Activity{
 		}
 	};
 
-//	private final void setStatus(int resId) {
-//		final ActionBar actionBar = getActionBar();
-//		actionBar.setSubtitle(resId);
-//	}
+	//	private final void setStatus(int resId) {
+	//		final ActionBar actionBar = getActionBar();
+	//		actionBar.setSubtitle(resId);
+	//	}
 
-//	private final void setStatus(CharSequence subTitle) {
-//		final ActionBar actionBar = getActionBar();
-//		actionBar.setSubtitle(subTitle);
-//	}
+	//	private final void setStatus(CharSequence subTitle) {
+	//		final ActionBar actionBar = getActionBar();
+	//		actionBar.setSubtitle(subTitle);
+	//	}
 
 	// The Handler that gets information back from the BluetoothChatService
 	private final Handler mHandler = new Handler() {
@@ -246,11 +268,15 @@ public class BluetoothShareActivity extends Activity{
 				case BluetoothChatService.STATE_CONNECTED:
 					//setStatus(getString(R.string.title_connecting, mConnectedDeviceName));
 					//mConversationArrayAdapter.clear();
-					 setProgressBarIndeterminateVisibility(false);
+					setProgressBarIndeterminateVisibility(false);
+					if(sender == true){
+						BluetoothShareActivity mBluetoothShareActivity = new BluetoothShareActivity();
+						mBluetoothShareActivity.sendMessage("test");
+					}
 					break;
 				case BluetoothChatService.STATE_CONNECTING:
 					//setStatus(R.string.title_connecting);
-					 setProgressBarIndeterminateVisibility(true);
+					setProgressBarIndeterminateVisibility(true);
 					break;
 				case BluetoothChatService.STATE_LISTEN:
 				case BluetoothChatService.STATE_NONE:
@@ -271,6 +297,7 @@ public class BluetoothShareActivity extends Activity{
 				byte[] readBuf = (byte[]) msg.obj;
 				// construct a string from the valid bytes in the buffer
 				String readMessage = new String(readBuf, 0, msg.arg1);
+				Log.v("read", readMessage);
 				//mOutShareText.setText(readMessage);
 
 
@@ -300,12 +327,12 @@ public class BluetoothShareActivity extends Activity{
 				connectDevice(data, true);
 			}
 			break;
-		case REQUEST_CONNECT_DEVICE_INSECURE:
-			// When DeviceListActivity returns with a device to connect
-			if (resultCode == Activity.RESULT_OK) {
-				connectDevice(data, false);
-			}
-			break;
+//		case REQUEST_CONNECT_DEVICE_INSECURE:
+//			// When DeviceListActivity returns with a device to connect
+//			if (resultCode == Activity.RESULT_OK) {
+//				connectDevice(data, false);
+//			}
+//			break;
 		case REQUEST_ENABLE_BT:
 			// When the request to enable Bluetooth returns
 			if (resultCode == Activity.RESULT_OK) {
@@ -332,27 +359,27 @@ public class BluetoothShareActivity extends Activity{
 	}
 
 
-//	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) {
-//		MenuInflater inflater = getMenuInflater();
-//		inflater.inflate(R.menu.option_menu, menu);
-//		return true;
-//	}
+	//	@Override
+	//	public boolean onCreateOptionsMenu(Menu menu) {
+	//		MenuInflater inflater = getMenuInflater();
+	//		inflater.inflate(R.menu.option_menu, menu);
+	//		return true;
+	//	}
 
-//	@Override
-//	public boolean onOptionsItemSelected(MenuItem item) {
-//		Intent serverIntent = null;
-//		switch (item.getItemId()) {
-//		case R.id.secure_connect_scan:
-//			// Launch the DeviceListActivity to see devices and do sca;
-//			//       serverIntent = new Intent(this, DeviceListActivity.class);
-//			//       startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
-//		case R.id.discoverable:
-//			// Ensure this device is discoverable by others
-//			ensureDiscoverable();
-//			return true;
-//		}
-//		return false;
-//	}
+	//	@Override
+	//	public boolean onOptionsItemSelected(MenuItem item) {
+	//		Intent serverIntent = null;
+	//		switch (item.getItemId()) {
+	//		case R.id.secure_connect_scan:
+	//			// Launch the DeviceListActivity to see devices and do sca;
+	//			//       serverIntent = new Intent(this, DeviceListActivity.class);
+	//			//       startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
+	//		case R.id.discoverable:
+	//			// Ensure this device is discoverable by others
+	//			ensureDiscoverable();
+	//			return true;
+	//		}
+	//		return false;
+	//	}
 
 }
