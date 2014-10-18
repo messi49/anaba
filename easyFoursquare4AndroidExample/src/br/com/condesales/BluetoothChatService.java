@@ -21,12 +21,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.UUID;
+
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -43,7 +45,7 @@ public class BluetoothChatService {
 	
 	BluetoothShareActivity mBluetoothShareActivity;
 
-	ArrayList<String> receiveVenueId = new ArrayList<String>();
+	private ArrayList<String> receiveVenueId = new ArrayList<String>();
 	
 	// Debugging
 	private static final String TAG = "BluetoothChatService";
@@ -75,6 +77,8 @@ public class BluetoothChatService {
 	public static final int STATE_LISTEN = 1;     // now listening for incoming connections
 	public static final int STATE_CONNECTING = 2; // now initiating an outgoing connection
 	public static final int STATE_CONNECTED = 3;  // now connected to a remote device
+	
+	private boolean sendFlag = false, recieveFlag = false;
 
 	/**
 	 * Constructor. Prepares a new BluetoothChat session.
@@ -202,6 +206,14 @@ public class BluetoothChatService {
 		}
 		byte[] send = message.getBytes();
 		this.write(send);
+		sendFlag = true;
+		
+		if(sendFlag == true && recieveFlag == true){
+			Intent intent = new Intent(mBluetoothShareActivity, ExpressActivity.class);
+			intent.putExtra("sendVenues", venueId);
+			intent.putExtra("recieveVenues", receiveVenueId);
+			mBluetoothShareActivity.startActivity(intent);
+		}
 	}
 
 	/**
@@ -485,6 +497,14 @@ public class BluetoothChatService {
 					if(!s.equals("000000000000000000000000")){
 						receiveVenueId.add(s);
 					}else{
+						recieveFlag = true;
+						
+						if(sendFlag == true && recieveFlag == true){
+							Intent intent = new Intent(mBluetoothShareActivity, ExpressActivity.class);
+							intent.putExtra("sendVenues", mBluetoothShareActivity.getVenueId());
+							intent.putExtra("recieveVenues", receiveVenueId);
+							mBluetoothShareActivity.startActivity(intent);
+						}
 						
 					}
 					

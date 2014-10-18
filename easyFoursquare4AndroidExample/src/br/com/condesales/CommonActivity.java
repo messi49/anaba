@@ -84,9 +84,6 @@ public class CommonActivity extends Activity implements AccessTokenRequestListen
 			getVenueInfo(venueId.get(p));
 		}
 
-		//		for (int p = 0 ; p < venueId.size()/10 ; p++){
-		//			getVenueImage(venueId.get(p));
-		//		}
 
 	}
 

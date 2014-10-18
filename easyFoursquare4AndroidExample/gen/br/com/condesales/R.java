@@ -30,17 +30,15 @@ public final class R {
         public static final int foursquare_icon=0x7f020001;
         public static final int group_back=0x7f020002;
         public static final int ic_launcher=0x7f020003;
-        public static final int nabepa=0x7f020004;
-        public static final int request_icon=0x7f020005;
-        public static final int search_icon=0x7f020006;
-        public static final int share_icon=0x7f020007;
-        public static final int splash=0x7f020008;
-        public static final int splash_image=0x7f020009;
-        public static final int window_background=0x7f02000a;
+        public static final int request_icon=0x7f020004;
+        public static final int search_icon=0x7f020005;
+        public static final int share_icon=0x7f020006;
+        public static final int splash=0x7f020007;
+        public static final int splash_image=0x7f020008;
+        public static final int window_background=0x7f020009;
     }
     public static final class id {
         public static final int bt_text=0x7f090013;
-        public static final int button1=0x7f090002;
         public static final int button_request=0x7f090001;
         public static final int button_scan=0x7f09001a;
         public static final int button_send=0x7f090000;
@@ -66,6 +64,7 @@ public final class R {
         public static final int textView1=0x7f09000f;
         public static final int textView2=0x7f090010;
         public static final int textView3=0x7f090012;
+        public static final int title=0x7f090002;
         public static final int title_new_devices=0x7f090018;
         public static final int title_paired_devices=0x7f090016;
         public static final int userImage=0x7f090006;

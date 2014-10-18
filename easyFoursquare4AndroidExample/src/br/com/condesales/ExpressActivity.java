@@ -22,6 +22,12 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 public class ExpressActivity extends Activity implements android.view.View.OnClickListener, ImageRequestListener, AccessTokenRequestListener{
+	private ArrayList<String> receiveVenueId = new ArrayList<String>();
+	private ArrayList<String> myVenueId = new ArrayList<String>();
+
+
+	private ArrayList<String> commonVenue = new ArrayList<String>();
+	private ArrayList<String> nonCommonVenue = new ArrayList<String>();
 
 	private EasyFoursquareAsync async;
 
@@ -47,22 +53,57 @@ public class ExpressActivity extends Activity implements android.view.View.OnCli
 		userName = (TextView) findViewById(R.id.userName);
 		placeLv = (TextView) findViewById(R.id.placeLv);
 		commonText = (TextView) findViewById(R.id.commonText);
-		commonText.setText("↓お互いに～好きかも");
+		commonText.setText("↓お互いの共通点");
 		nonCommonText = (TextView) findViewById(R.id.nonCommonText);
 		nonCommonText.setText("↓知らないスポットをお薦めしよう！");
 		commonCategory = (Button) findViewById(R.id.commonCategory);
 		commonCategory.setOnClickListener(this);
-		commonCategory.setText("共通: ?件");
 		nonCommonCategory = (Button) findViewById(R.id.nonCommonCategory);
 		nonCommonCategory.setOnClickListener(this);
-		nonCommonCategory.setText("非共通: ?件");
 
 		//ask for access
 		async = new EasyFoursquareAsync(this);
 		async.requestAccess(this);
 
-		getFriends("96579903");
+		Intent i = getIntent();
+		myVenueId = i.getStringArrayListExtra("sendVenues");
+		receiveVenueId = i.getStringArrayListExtra("recieveVenues");
+		
+		for(int p=0; p<receiveVenueId.size(); p++){
+			Log.v("receiveVenueId", receiveVenueId.get(p));
+		}
+		
+		for(int p=0; p<myVenueId.size(); p++){
+			Log.v("myVenueId", myVenueId.get(p));
+		}
 
+		if(myVenueId.size() >= receiveVenueId.size()){
+			for(int p=0; p<myVenueId.size(); p++){
+				if(receiveVenueId.contains(myVenueId.get(p))){
+					commonVenue.add(myVenueId.get(p));
+				}
+				else{
+					nonCommonVenue.add(myVenueId.get(p));
+				}
+			}
+		}
+		else{
+			for(int p=0; p<receiveVenueId.size(); p++){
+				if(myVenueId.contains(receiveVenueId.get(p))){
+					commonVenue.add(receiveVenueId.get(p));
+					Log.v("venueueueueue",receiveVenueId.get(p));
+				}
+				else{
+					nonCommonVenue.add(receiveVenueId.get(p));
+					Log.v("venueueueueue","---------" + receiveVenueId.get(p));
+
+				}
+			}
+		}
+		
+		commonCategory.setText("共通: " + commonVenue.size() + "件");
+		nonCommonCategory.setText("非共通:" + nonCommonVenue.size() + "件");
+		
 	}
 
 	private void getFriends(String string) {
@@ -77,7 +118,7 @@ public class ExpressActivity extends Activity implements android.view.View.OnCli
 				Log.v("ExpressActivity", "User = " + user.getFirstName());
 			}
 		};
-		
+
 		async.getUserInfo(mUserInfoRequestListener);
 
 	}
@@ -87,6 +128,7 @@ public class ExpressActivity extends Activity implements android.view.View.OnCli
 		if(v == commonCategory){
 			//Intent intent = new Intent(getApplicationContext(),ShareActivity.class);
 			Intent intent = new Intent(getApplicationContext(),CommonActivity.class);
+			intent.putExtra("venues", commonVenue);
 
 			//intent.putExtra("nabe_type", nabe_type);
 			startActivity(intent);
@@ -94,6 +136,7 @@ public class ExpressActivity extends Activity implements android.view.View.OnCli
 		else if (v == nonCommonCategory){
 			//Intent intent = new Intent(getApplicationContext(),ShareActivity.class);
 			Intent intent = new Intent(getApplicationContext(),NonCommonActivity.class);
+			intent.putExtra("venues", nonCommonVenue);
 
 			//intent.putExtra("nabe_type", nabe_type);
 			startActivity(intent);
