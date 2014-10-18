@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="chart_border">#808000</color>
+    <color name="summary">#d2691e</color>
+    <color name="base_text">#808000</color>
+    <color name="base_blue">#d2691e</color>
+    <color name="chart_pink">#d2691e</color>
+    <color name="white">#fff0cb9a</color>
+    <color name="chart_dg_gray">#ffbdbdbd</color>
+    <color name="text_bg_solid_gray">#ffbdbdbd</color>
+
+
+</resources>
