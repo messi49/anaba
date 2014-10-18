@@ -1,7 +1,5 @@
 package br.com.condesales;
 
-import java.util.ArrayList;
-
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -56,7 +54,8 @@ public class BluetoothShareActivity extends Activity{
 	// Layout Views
 	//private TextView mOutShareText;
 	//private EditText mOutEditText;
-	private ImageButton mSendButton;
+	private ImageButton mSearchButton;
+	private ImageButton mRequestButton;
 
 	// Name of the connected device
 	private String mConnectedDeviceName = null;
@@ -66,8 +65,6 @@ public class BluetoothShareActivity extends Activity{
 	private BluetoothAdapter mBluetoothAdapter = null;
 	// Member object for the chat services
 	private BluetoothChatService mChatService = null;
-	
-	private ArrayList<String> venueId;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -88,14 +85,6 @@ public class BluetoothShareActivity extends Activity{
 			Toast.makeText(this, "Bluetooth is not available", Toast.LENGTH_LONG).show();
 			finish();
 			return;
-		}
-
-		Intent i = getIntent();
-		venueId = i.getStringArrayListExtra("venues");
-
-		for (int p = 0 ; p < venueId.size() ; p++){
-			String country = venueId.get(p);
-			Log.v("Blue", "venue " + p +" = " + country);
 		}
 	}
 
@@ -141,8 +130,8 @@ public class BluetoothShareActivity extends Activity{
 		//mOutEditText.setOnEditorActionListener(mWriteListener);
 
 		// Initialize the send button with a listener that for click events
-		mSendButton = (ImageButton) findViewById(R.id.button_send);
-		mSendButton.setOnClickListener(new OnClickListener() {
+		mSearchButton = (ImageButton) findViewById(R.id.button_send);
+		mSearchButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				// Send a message using content of the edit text widget
 				//				TextView view = (TextView) findViewById(R.id.edit_text_out);
@@ -154,7 +143,14 @@ public class BluetoothShareActivity extends Activity{
 
 			}
 		});
-
+		mRequestButton = (ImageButton) findViewById(R.id.button_request);
+		mRequestButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				ensureDiscoverable();
+			}
+		});
+		
+		
 		// Initialize the BluetoothChatService to perform bluetooth connections
 		mChatService = new BluetoothChatService(this, mHandler);
 
@@ -229,15 +225,15 @@ public class BluetoothShareActivity extends Activity{
 		}
 	};
 
-	//	private final void setStatus(int resId) {
-	//		final ActionBar actionBar = getActionBar();
-	//		actionBar.setSubtitle(resId);
-	//	}
+//	private final void setStatus(int resId) {
+//		final ActionBar actionBar = getActionBar();
+//		actionBar.setSubtitle(resId);
+//	}
 
-	//	private final void setStatus(CharSequence subTitle) {
-	//		final ActionBar actionBar = getActionBar();
-	//		actionBar.setSubtitle(subTitle);
-	//	}
+//	private final void setStatus(CharSequence subTitle) {
+//		final ActionBar actionBar = getActionBar();
+//		actionBar.setSubtitle(subTitle);
+//	}
 
 	// The Handler that gets information back from the BluetoothChatService
 	private final Handler mHandler = new Handler() {
@@ -250,11 +246,11 @@ public class BluetoothShareActivity extends Activity{
 				case BluetoothChatService.STATE_CONNECTED:
 					//setStatus(getString(R.string.title_connecting, mConnectedDeviceName));
 					//mConversationArrayAdapter.clear();
-					setProgressBarIndeterminateVisibility(false);
+					 setProgressBarIndeterminateVisibility(false);
 					break;
 				case BluetoothChatService.STATE_CONNECTING:
 					//setStatus(R.string.title_connecting);
-					setProgressBarIndeterminateVisibility(true);
+					 setProgressBarIndeterminateVisibility(true);
 					break;
 				case BluetoothChatService.STATE_LISTEN:
 				case BluetoothChatService.STATE_NONE:
@@ -336,27 +332,27 @@ public class BluetoothShareActivity extends Activity{
 	}
 
 
-	//	@Override
-	//	public boolean onCreateOptionsMenu(Menu menu) {
-	//		MenuInflater inflater = getMenuInflater();
-	//		inflater.inflate(R.menu.option_menu, menu);
-	//		return true;
-	//	}
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		MenuInflater inflater = getMenuInflater();
+//		inflater.inflate(R.menu.option_menu, menu);
+//		return true;
+//	}
 
-	//	@Override
-	//	public boolean onOptionsItemSelected(MenuItem item) {
-	//		Intent serverIntent = null;
-	//		switch (item.getItemId()) {
-	//		case R.id.secure_connect_scan:
-	//			// Launch the DeviceListActivity to see devices and do sca;
-	//			//       serverIntent = new Intent(this, DeviceListActivity.class);
-	//			//       startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
-	//		case R.id.discoverable:
-	//			// Ensure this device is discoverable by others
-	//			ensureDiscoverable();
-	//			return true;
-	//		}
-	//		return false;
-	//	}
+//	@Override
+//	public boolean onOptionsItemSelected(MenuItem item) {
+//		Intent serverIntent = null;
+//		switch (item.getItemId()) {
+//		case R.id.secure_connect_scan:
+//			// Launch the DeviceListActivity to see devices and do sca;
+//			//       serverIntent = new Intent(this, DeviceListActivity.class);
+//			//       startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
+//		case R.id.discoverable:
+//			// Ensure this device is discoverable by others
+//			ensureDiscoverable();
+//			return true;
+//		}
+//		return false;
+//	}
 
 }

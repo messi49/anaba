@@ -28,7 +28,7 @@
                 android:id="@+id/userImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
+                android:layout_gravity="top"
                 android:contentDescription="User image"
                 android:src="@drawable/ic_launcher" />
         </ViewSwitcher>
@@ -38,6 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_weight="0.5"
             android:textSize="23dp" />
 
         <TextView
@@ -45,14 +46,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:text="TextView" />
 
         <TableLayout
             android:id="@+id/tableLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4"
+            android:layout_weight="3"
             android:stretchColumns="0" >
 
             <TableRow
@@ -97,13 +98,32 @@
             </TableRow>
         </TableLayout>
 
-        <Button
-            android:id="@+id/shareButton"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1"
-            android:text="Button" />
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:weightSum="7" >
+
+            <ImageButton
+                android:id="@+id/shareButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="6"
+                android:background="#00FFFFFF"
+                android:src="@drawable/share_icon" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="top|center"
+                android:text="Share"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

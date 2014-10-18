@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -56,16 +57,16 @@ AccessTokenRequestListener, ImageRequestListener, android.view.View.OnClickListe
 	private String[] categoryNum;
 	private ArrayList<String> venueId;
 	private TableLayout tableLayout;
-	private Button shareButton;
+	private ImageButton shareButton;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		try {
-			// ここで2秒間スリープし、スプラッシュを表示させたままにする。
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-		}
+//		try {
+//			// ここで2秒間スリープし、スプラッシュを表示させたままにする。
+//			Thread.sleep(2000);
+//		} catch (InterruptedException e) {
+//		}
 
 		// 通常時のテーマをセットする。
 		setTheme(R.style.NormalTheme);
@@ -82,7 +83,7 @@ AccessTokenRequestListener, ImageRequestListener, android.view.View.OnClickListe
 
 		tableLayout = (TableLayout)findViewById(R.id.tableLayout);
 
-		shareButton = (Button)findViewById(R.id.shareButton);
+		shareButton = (ImageButton)findViewById(R.id.shareButton);
 		shareButton.setOnClickListener(this);
 
 		venueId = new ArrayList<String>();
@@ -254,7 +255,6 @@ AccessTokenRequestListener, ImageRequestListener, android.view.View.OnClickListe
 	}
 
 	private void checkin() {
-
 		CheckInCriteria criteria = new CheckInCriteria();
 		criteria.setBroadcast(CheckInCriteria.BroadCastType.PUBLIC);
 		criteria.setVenueId("4c7063da9c6d6dcb9798d27a");
