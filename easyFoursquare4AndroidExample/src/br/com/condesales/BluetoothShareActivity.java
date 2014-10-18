@@ -69,18 +69,21 @@ public class BluetoothShareActivity extends Activity{
 	private BluetoothChatService mChatService = null;
 
 	private ArrayList<String> venueId;
-	
+	public ArrayList<String> getVenueId() {
+		return venueId;
+	}
+
+	public void setVenueId(ArrayList<String> venueId) {
+		this.venueId = venueId;
+	}
+
 	//true = sender, false = reciever
 	private boolean sender = false;
-
-	BluetoothShareActivity mBluetoothShareActivity;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if(D) Log.e(TAG, "+++ ON CREATE +++");
-
-		mBluetoothShareActivity = new BluetoothShareActivity();
 
 		// Set up the window layout
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);  
@@ -105,6 +108,8 @@ public class BluetoothShareActivity extends Activity{
 			String country = venueId.get(p);
 			Log.v("Blue", "venue " + p +" = " + country);
 		}
+		
+		
 	}
 
 	@Override
@@ -135,7 +140,7 @@ public class BluetoothShareActivity extends Activity{
 			// Only if the state is STATE_NONE, do we know that we haven't started already
 			if (mChatService.getState() == BluetoothChatService.STATE_NONE) {
 				// Start the Bluetooth chat services
-				mChatService.start();
+				mChatService.start(this);
 			}
 		}
 	}
@@ -228,7 +233,7 @@ public class BluetoothShareActivity extends Activity{
 			mChatService.write(send);
 
 			// Reset out string buffer to zero and clear the edit text field
-			mOutStringBuffer.setLength(0);
+			//mOutStringBuffer.setLength(0);
 			//mOutEditText.setText(mOutStringBuffer);
 		}
 	}
@@ -269,10 +274,10 @@ public class BluetoothShareActivity extends Activity{
 					//setStatus(getString(R.string.title_connecting, mConnectedDeviceName));
 					//mConversationArrayAdapter.clear();
 					setProgressBarIndeterminateVisibility(false);
-					if(sender == true){
-						BluetoothShareActivity mBluetoothShareActivity = new BluetoothShareActivity();
-						mBluetoothShareActivity.sendMessage("test");
-					}
+					
+//					if(sender == true){				
+//						BluetoothShareActivity.sendMessage("test");
+//					}
 					break;
 				case BluetoothChatService.STATE_CONNECTING:
 					//setStatus(R.string.title_connecting);
@@ -289,6 +294,8 @@ public class BluetoothShareActivity extends Activity{
 				byte[] writeBuf = (byte[]) msg.obj;
 				// construct a string from the buffer
 				String writeMessage = new String(writeBuf);
+				Log.v(TAG, writeMessage);
+				
 				//mOutShareText.setText(writeMessage);
 				//mConversationArrayAdapter.add("Me:  " + writeMessage);
 
@@ -297,11 +304,9 @@ public class BluetoothShareActivity extends Activity{
 				byte[] readBuf = (byte[]) msg.obj;
 				// construct a string from the valid bytes in the buffer
 				String readMessage = new String(readBuf, 0, msg.arg1);
-				Log.v("read", readMessage);
-				//mOutShareText.setText(readMessage);
-
-
-
+				//Log.e("read", readMessage);
+				
+				
 				break;
 			case MESSAGE_DEVICE_NAME:
 				// save the connected device's name

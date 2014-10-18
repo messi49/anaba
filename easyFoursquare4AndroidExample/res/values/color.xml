@@ -5,7 +5,7 @@
     <color name="base_text">#808000</color>
     <color name="base_blue">#d2691e</color>
     <color name="chart_pink">#d2691e</color>
-    <color name="white">#fff0cb9a</color>
-    <color name="chart_dg_gray">#ffbdbdbd</color>
+    <color name="white">#ffffff</color>
+    <color name="chart_dg_gray">#d3d3d3</color>
     <color name="text_bg_solid_gray">#ffbdbdbd</color>
 </resources>

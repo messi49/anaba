@@ -29,6 +29,10 @@
         </activity>
         <activity android:name=".BluetoothShareActivity" >
         </activity>
+        <activity android:name=".CommonActivity" >
+        </activity>
+        <activity android:name=".NonCommonActivity" >
+        </activity>
         <activity
             android:name=".DeviceListActivity"
             android:configChanges="orientation|keyboardHidden"

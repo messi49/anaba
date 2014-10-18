@@ -51,6 +51,7 @@ AccessTokenRequestListener, ImageRequestListener, android.view.View.OnClickListe
 	private ImageView userImage;
 	private ViewSwitcher viewSwitcher;
 	private TextView userName;
+	private TextView placeLv;
 	private VenuesHistoryListener mVenuesHistoryListener; 
 	EasyFoursquare mEasyFoursquare;
 	private String[] categoryType;
@@ -62,11 +63,11 @@ AccessTokenRequestListener, ImageRequestListener, android.view.View.OnClickListe
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		try {
-//			// ここで2秒間スリープし、スプラッシュを表示させたままにする。
-//			Thread.sleep(2000);
-//		} catch (InterruptedException e) {
-//		}
+		//		try {
+		//			// ここで2秒間スリープし、スプラッシュを表示させたままにする。
+		//			Thread.sleep(2000);
+		//		} catch (InterruptedException e) {
+		//		}
 
 		// 通常時のテーマをセットする。
 		setTheme(R.style.NormalTheme);
@@ -75,6 +76,7 @@ AccessTokenRequestListener, ImageRequestListener, android.view.View.OnClickListe
 		userImage = (ImageView) findViewById(R.id.userImage);
 		viewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcher1);
 		userName = (TextView) findViewById(R.id.userName);
+		placeLv = (TextView) findViewById(R.id.placeLv);
 		//ask for access
 		async = new EasyFoursquareAsync(this);
 		async.requestAccess(this);
@@ -201,6 +203,17 @@ AccessTokenRequestListener, ImageRequestListener, android.view.View.OnClickListe
 					System.out.println("s.getKey() : " + s.getKey());
 					System.out.println("s.getValue() : " + s.getValue());
 					i++;
+				}
+
+				int lvPoint = Integer.parseInt(categoryNum[1]);
+				if(lvPoint < 20){
+					placeLv.setText(categoryType[1] + " Lv.1");
+				}
+				else if(20 < lvPoint && lvPoint < 40){
+					placeLv.setText(categoryType[1] + " Lv.2");
+				}
+				else{
+					placeLv.setText(categoryType[1] + " Lv.3");
 				}
 
 				for(i=0; i<3; i++){

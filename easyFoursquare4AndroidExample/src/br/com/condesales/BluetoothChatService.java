@@ -19,6 +19,7 @@ package br.com.condesales;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.UUID;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
@@ -39,6 +40,11 @@ import android.util.Log;
  */
 @SuppressLint("NewApi")
 public class BluetoothChatService {
+	
+	BluetoothShareActivity mBluetoothShareActivity;
+
+	ArrayList<String> receiveVenueId = new ArrayList<String>();
+	
 	// Debugging
 	private static final String TAG = "BluetoothChatService";
 	private static final boolean D = true;
@@ -61,6 +67,8 @@ public class BluetoothChatService {
 	private ConnectThread mConnectThread;
 	private ConnectedThread mConnectedThread;
 	private int mState;
+	// String buffer for outgoing messages
+	private StringBuffer mOutStringBuffer;
 
 	// Constants that indicate the current connection state
 	public static final int STATE_NONE = 0;       // we're doing nothing
@@ -100,9 +108,11 @@ public class BluetoothChatService {
 	/**
 	 * Start the chat service. Specifically start AcceptThread to begin a
 	 * session in listening (server) mode. Called by the Activity onResume() */
-	public synchronized void start() {
+	public synchronized void start(BluetoothShareActivity mainActivity) {
 		if (D) Log.d(TAG, "start");
 
+		mBluetoothShareActivity = mainActivity;
+		
 		// Cancel any thread attempting to make a connection
 		if (mConnectThread != null) {mConnectThread.cancel(); mConnectThread = null;}
 
@@ -116,10 +126,10 @@ public class BluetoothChatService {
 			mSecureAcceptThread = new AcceptThread(true);
 			mSecureAcceptThread.start();
 		}
-//		if (mInsecureAcceptThread == null) {
-//			mInsecureAcceptThread = new AcceptThread(false);
-//			mInsecureAcceptThread.start();
-//		}
+		//		if (mInsecureAcceptThread == null) {
+		//			mInsecureAcceptThread = new AcceptThread(false);
+		//			mInsecureAcceptThread.start();
+		//		}
 	}
 
 	/**
@@ -161,13 +171,13 @@ public class BluetoothChatService {
 
 		// Cancel the accept thread because we only want to connect to one device
 		if (mSecureAcceptThread != null) {
-			mSecureAcceptThread.cancel();
+			//mSecureAcceptThread.cancel();
 			mSecureAcceptThread = null;
 		}
-//		if (mInsecureAcceptThread != null) {
-//			mInsecureAcceptThread.cancel();
-//			mInsecureAcceptThread = null;
-//		}
+		//		if (mInsecureAcceptThread != null) {
+		//			mInsecureAcceptThread.cancel();
+		//			mInsecureAcceptThread = null;
+		//		}
 
 		// Start the thread to manage the connection and perform transmissions
 		mConnectedThread = new ConnectedThread(socket, socketType);
@@ -181,6 +191,17 @@ public class BluetoothChatService {
 		mHandler.sendMessage(msg);
 
 		setState(STATE_CONNECTED);
+		
+		
+		String message = "000000000000000000000000";
+		ArrayList<String> venueId = mBluetoothShareActivity.getVenueId();
+		for(String s : venueId){
+			//Log.v(TAG,s);
+			byte[] send = s.getBytes();
+			this.write(send);
+		}
+		byte[] send = message.getBytes();
+		this.write(send);
 	}
 
 	/**
@@ -204,10 +225,10 @@ public class BluetoothChatService {
 			mSecureAcceptThread = null;
 		}
 
-//		if (mInsecureAcceptThread != null) {
-//			mInsecureAcceptThread.cancel();
-//			mInsecureAcceptThread = null;
-//		}
+		//		if (mInsecureAcceptThread != null) {
+		//			mInsecureAcceptThread.cancel();
+		//			mInsecureAcceptThread = null;
+		//		}
 		setState(STATE_NONE);
 	}
 
@@ -217,6 +238,9 @@ public class BluetoothChatService {
 	 * @see ConnectedThread#write(byte[])
 	 */
 	public void write(byte[] out) {
+
+		//Log.e(TAG,"write");
+
 		// Create temporary object
 		ConnectedThread r;
 		// Synchronize a copy of the ConnectedThread
@@ -240,7 +264,7 @@ public class BluetoothChatService {
 		mHandler.sendMessage(msg);
 
 		// Start the service over to restart listening mode
-		BluetoothChatService.this.start();
+		BluetoothChatService.this.start(mBluetoothShareActivity);
 	}
 
 	/**
@@ -255,7 +279,7 @@ public class BluetoothChatService {
 		mHandler.sendMessage(msg);
 
 		// Start the service over to restart listening mode
-		BluetoothChatService.this.start();
+		BluetoothChatService.this.start(mBluetoothShareActivity);
 	}
 
 	/**
@@ -446,15 +470,24 @@ public class BluetoothChatService {
 
 		public void run() {
 			Log.i(TAG, "BEGIN mConnectedThread");
-			byte[] buffer = new byte[1024];
+
+			byte[] buffer = new byte[24];
 			int bytes;
 
 			// Keep listening to the InputStream while connected
 			while (true) {
 				try {
+
 					// Read from the InputStream
 					bytes = mmInStream.read(buffer);
-
+					String s = new String(buffer,"UTF-8");
+					Log.e(TAG,s);
+					if(!s.equals("000000000000000000000000")){
+						receiveVenueId.add(s);
+					}else{
+						
+					}
+					
 					// Send the obtained bytes to the UI Activity
 					mHandler.obtainMessage(BluetoothShareActivity.MESSAGE_READ, bytes, -1, buffer)
 					.sendToTarget();
@@ -462,7 +495,7 @@ public class BluetoothChatService {
 					Log.e(TAG, "disconnected", e);
 					connectionLost();
 					// Start the service over to restart listening mode
-					BluetoothChatService.this.start();
+					BluetoothChatService.this.start(mBluetoothShareActivity);
 					break;
 				}
 			}

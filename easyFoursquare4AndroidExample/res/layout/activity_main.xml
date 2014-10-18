@@ -8,14 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="8" >
+        android:weightSum="9" >
 
         <ViewSwitcher
             android:id="@+id/viewSwitcher1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1" >
+            android:layout_weight="2" >
 
             <ProgressBar
                 android:id="@+id/progressBar1"
@@ -29,6 +29,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="top"
+                android:padding="8dp"
+                android:background="@color/chart_dg_gray"
                 android:contentDescription="User image"
                 android:src="@drawable/ic_launcher" />
         </ViewSwitcher>
@@ -47,7 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="0.5"
-            android:text="TextView" />
+            android:text="TextView" 
+            android:textSize="18dp"/>
 
         <TableLayout
             android:id="@+id/tableLayout"
