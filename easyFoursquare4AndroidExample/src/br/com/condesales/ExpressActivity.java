@@ -68,42 +68,59 @@ public class ExpressActivity extends Activity implements android.view.View.OnCli
 		Intent i = getIntent();
 		myVenueId = i.getStringArrayListExtra("sendVenues");
 		receiveVenueId = i.getStringArrayListExtra("recieveVenues");
-		
+
 		for(int p=0; p<receiveVenueId.size(); p++){
 			Log.v("receiveVenueId", receiveVenueId.get(p));
 		}
-		
+
 		for(int p=0; p<myVenueId.size(); p++){
 			Log.v("myVenueId", myVenueId.get(p));
 		}
 
-		if(myVenueId.size() >= receiveVenueId.size()){
-			for(int p=0; p<myVenueId.size(); p++){
-				if(receiveVenueId.contains(myVenueId.get(p))){
-					commonVenue.add(myVenueId.get(p));
-				}
-				else{
-					nonCommonVenue.add(myVenueId.get(p));
-				}
-			}
-		}
-		else{
-			for(int p=0; p<receiveVenueId.size(); p++){
-				if(myVenueId.contains(receiveVenueId.get(p))){
-					commonVenue.add(receiveVenueId.get(p));
-					Log.v("venueueueueue",receiveVenueId.get(p));
-				}
-				else{
-					nonCommonVenue.add(receiveVenueId.get(p));
-					Log.v("venueueueueue","---------" + receiveVenueId.get(p));
 
-				}
+		for(int p=0; p<myVenueId.size(); p++){
+			if(receiveVenueId.contains(myVenueId.get(p))){
+				commonVenue.add(myVenueId.get(p));
 			}
 		}
 		
+		for(int p=0; p<receiveVenueId.size(); p++){
+			if(!commonVenue.contains(receiveVenueId.get(p))){
+				nonCommonVenue.add(receiveVenueId.get(p));
+			}
+		}
+		
+		
+
+
+
+
+		//		for(int p=0; p<myVenueId.size(); p++){
+		//			if(receiveVenueId.contains(myVenueId.get(p))){
+		//				commonVenue.add(myVenueId.get(p));
+		//			}
+		//			else{
+		//				nonCommonVenue.add(myVenueId.get(p));
+		//			}
+		//		}
+		//
+		//
+		//		for(int p=0; p<receiveVenueId.size(); p++){
+		//			if(myVenueId.contains(receiveVenueId.get(p))){
+		//				commonVenue.add(receiveVenueId.get(p));
+		//				Log.v("venueueueueue",receiveVenueId.get(p));
+		//			}
+		//			else{
+		//				nonCommonVenue.add(receiveVenueId.get(p));
+		//				Log.v("venueueueueue","---------" + receiveVenueId.get(p));
+		//
+		//			}
+		//		}
+
+
 		commonCategory.setText("‹¤’Ê: " + commonVenue.size() + "Œ");
 		nonCommonCategory.setText("”ñ‹¤’Ê:" + nonCommonVenue.size() + "Œ");
-		
+
 	}
 
 	private void getFriends(String string) {
